@@ -72,7 +72,11 @@ async function installTinyTexPosix() {
   let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
   "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 
   "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
-  await exec.exec("tlmgr install", pkgs);
+  try {
+    await exec.exec("tlmgr install", pkgs);
+  } catch (error) {
+    console.log(error);
+  }
 
   let binPath: string;
 

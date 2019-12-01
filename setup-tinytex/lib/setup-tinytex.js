@@ -90,7 +90,12 @@ function installTinyTexPosix() {
         let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
             "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
             "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
-        yield exec.exec("tlmgr install", pkgs);
+        try {
+            yield exec.exec("tlmgr install", pkgs);
+        }
+        catch (error) {
+            console.log(error);
+        }
         let binPath;
         // The binaries are in TinyTeX/bin/*/, where the wildcard is the
         // architecture, but we should always take the first one.
