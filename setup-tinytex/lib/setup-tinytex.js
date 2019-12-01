@@ -123,12 +123,7 @@ function ensureManualPackages() {
         let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
             "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
             "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
-        try {
-            yield exec.exec("tlmgr install", pkgs);
-        }
-        catch (error) {
-            console.log(error);
-        }
+        yield exec.exec("tlmgr install", pkgs, { "ignoreReturnCode": true });
     });
 }
 run();
