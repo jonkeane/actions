@@ -86,6 +86,7 @@ function installTinyTexPosix() {
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         yield exec.exec("sh", [path.join(tempDirectory, fileName)]);
         // Ensure the packages needed to compile the pdf manual
+        yield exec.exec("tlmgr update --self");
         let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
             "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
             "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
