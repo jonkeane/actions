@@ -120,9 +120,7 @@ function ensureManualPackages() {
     return __awaiter(this, void 0, void 0, function* () {
         // Ensure the packages needed to compile the pdf manual
         yield exec.exec("tlmgr update --self");
-        let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
-            "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
-            "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
+        let pkgs = ["kvoptions", "pdftexcmds"];
         yield exec.exec("tlmgr install", pkgs, { "ignoreReturnCode": true });
     });
 }
