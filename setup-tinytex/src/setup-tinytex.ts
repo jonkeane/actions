@@ -32,6 +32,18 @@ async function run() {
   } catch (error) {
     core.setFailed(error.message);
   }
+  
+  // Ensure the packages needed to compile the pdf manual
+  await exec.exec("tlmgr update --self");
+
+  let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
+  "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 
+  "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
+  try {
+    await exec.exec("tlmgr install", pkgs);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function getTinyTex() {
@@ -40,15 +52,6 @@ export async function getTinyTex() {
   } else {
     installTinyTexPosix();
   }
-  
-  // Ensure the packages needed to compile the pdf manual
-  await exec.exec("tlmgr update --self");
-
-  let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
-  "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 
-  "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
-  
-  await exec.exec("tlmgr install", pkgs);
 }
 
 async function installTinyTexPosix() {
