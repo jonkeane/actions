@@ -46,17 +46,6 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield getTinyTex();
-            // Ensure the packages needed to compile the pdf manual
-            yield exec.exec("tlmgr update --self");
-            let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
-                "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
-                "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
-            try {
-                yield exec.exec("tlmgr install", pkgs);
-            }
-            catch (error) {
-                console.log(error);
-            }
         }
         catch (error) {
             core.setFailed(error.message);
@@ -96,6 +85,7 @@ function installTinyTexPosix() {
         }
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         yield exec.exec("sh", [path.join(tempDirectory, fileName)]);
+        yield ensureManualPackages();
         let binPath;
         // The binaries are in TinyTeX/bin/*/, where the wildcard is the
         // architecture, but we should always take the first one.
@@ -122,7 +112,23 @@ function installTinyTexWindows() {
         }
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         exec.exec(path.join(tempDirectory, fileName));
+        yield ensureManualPackages();
         core.addPath(path.join(process.env["APPDATA"] || "C:\\", "TinyTeX", "bin", "win32"));
+    });
+}
+function ensureManualPackages() {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Ensure the packages needed to compile the pdf manual
+        yield exec.exec("tlmgr update --self");
+        let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
+            "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
+            "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
+        try {
+            yield exec.exec("tlmgr install", pkgs);
+        }
+        catch (error) {
+            console.log(error);
+        }
     });
 }
 run();

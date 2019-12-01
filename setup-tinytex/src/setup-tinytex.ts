@@ -29,18 +29,6 @@ if (!tempDirectory) {
 async function run() {
   try {
     await getTinyTex();
-    
-    // Ensure the packages needed to compile the pdf manual
-    await exec.exec("tlmgr update --self");
-
-    let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
-    "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 
-    "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
-    try {
-      await exec.exec("tlmgr install", pkgs);
-    } catch (error) {
-      console.log(error);
-    }
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -78,6 +66,8 @@ async function installTinyTexPosix() {
 
   await exec.exec("sh", [path.join(tempDirectory, fileName)]);
 
+  await ensureManualPackages();
+
   let binPath: string;
 
   // The binaries are in TinyTeX/bin/*/, where the wildcard is the
@@ -108,9 +98,25 @@ async function installTinyTexWindows() {
 
   exec.exec(path.join(tempDirectory, fileName));
 
+  await ensureManualPackages();
+
   core.addPath(
     path.join(process.env["APPDATA"] || "C:\\", "TinyTeX", "bin", "win32")
   );
+}
+
+async function ensureManualPackages() {
+  // Ensure the packages needed to compile the pdf manual
+  await exec.exec("tlmgr update --self");
+
+  let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
+  "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 
+  "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
+  try {
+    await exec.exec("tlmgr install", pkgs);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 run();
