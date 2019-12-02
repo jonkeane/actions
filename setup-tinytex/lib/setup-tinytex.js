@@ -113,13 +113,17 @@ function installTinyTexWindows() {
         // Cleanse install-windows.bat of the pause at the end to make it non-interactive
         var installer = fs.readFileSync(downloadPath, 'utf8');
         var re = /^pause$/gi;
+        console.log(installer);
         installer = installer.replace(re, "");
+        console.log(installer);
         yield fs.writeFile(downloadPath, installer, 'utf8', function (err) {
             if (err) {
                 return console.error(err);
             }
             console.log("File created!");
         });
+        var again = fs.readFileSync(downloadPath, 'utf8');
+        console.log(again);
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         exec.exec(path.join(tempDirectory, fileName));
         yield ensureManualPackages();
