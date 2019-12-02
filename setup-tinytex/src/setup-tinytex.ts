@@ -95,7 +95,7 @@ async function installTinyTexWindows() {
   }
 
   // Cleanse install-windows.bat of the pause at the end to make it non-interactive
-  await exec.exec(`cat ${downloadPath} | % { $_ -replace "^pause$","" } > ${downloadPath}`)
+  await exec.exec(`((Get-Content -path ${downloadPath} -Raw) -replace '^pause$','') | Set-Content -Path ${downloadPath}`)
 
   await io.mv(downloadPath, path.join(tempDirectory, fileName));
 
