@@ -94,6 +94,9 @@ async function installTinyTexWindows() {
     throw `Failed to download TinyTex: ${error}`;
   }
 
+  // Cleanse install-windows.bat of the pause at the end to make it non-interactive
+  await exec.exec('cat ${downloadPath} | % { $_ -replace "^pause$","" } > ${downloadPath}')
+
   await io.mv(downloadPath, path.join(tempDirectory, fileName));
 
   exec.exec(path.join(tempDirectory, fileName));
