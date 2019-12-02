@@ -111,7 +111,15 @@ function installTinyTexWindows() {
             throw `Failed to download TinyTex: ${error}`;
         }
         // Cleanse install-windows.bat of the pause at the end to make it non-interactive
-        yield exec.exec(`((Get-Content -path ${downloadPath} -Raw) -replace '^pause$','') | Set-Content -Path ${downloadPath}`);
+        var installer = fs.readFileSync(downloadPath, 'utf8');
+        var re = /^pause$/gi;
+        installer = installer.replace(re, "");
+        yield fs.writeFile(downloadPath, installer, 'utf8', function (err) {
+            if (err) {
+                return console.error(err);
+            }
+            console.log("File created!");
+        });
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         exec.exec(path.join(tempDirectory, fileName));
         yield ensureManualPackages();

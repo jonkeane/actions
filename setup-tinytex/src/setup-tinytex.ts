@@ -95,7 +95,15 @@ async function installTinyTexWindows() {
   }
 
   // Cleanse install-windows.bat of the pause at the end to make it non-interactive
-  await exec.exec(`((Get-Content -path ${downloadPath} -Raw) -replace '^pause$','') | Set-Content -Path ${downloadPath}`)
+  var installer = fs.readFileSync(downloadPath, 'utf8');
+  var re = /^pause$/gi; 
+  installer = installer.replace(re, ""); 
+  await fs.writeFile(downloadPath, installer, 'utf8', function(err) {
+            if (err) {
+                return console.error(err);
+            }
+            console.log("File created!");
+        });
 
   await io.mv(downloadPath, path.join(tempDirectory, fileName));
 
