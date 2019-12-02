@@ -107,10 +107,15 @@ async function installTinyTexWindows() {
 
 async function ensureManualPackages() {
   // Ensure the packages needed to compile the pdf manual
-  await exec.exec("tlmgr update --self");
+  if (!IS_WINDOWS) {
+      await exec.exec("tlmgr update --self");
+  }
 
-  let pkgs: string[] = ["kvoptions", "pdftexcmds"];
-  await exec.exec("tlmgr install", pkgs, {"ignoreReturnCode" : true});
+  let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
+  "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 
+  "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
+  for (var pkg in pkgs) {
+    await exec.exec("tlmgr install", [pkg], {"ignoreReturnCode" : true});
+  }
 }
-
 run();
