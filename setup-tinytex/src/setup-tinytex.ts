@@ -102,7 +102,7 @@ async function installTinyTexWindows() {
   var new_installer = installer.replace(re, ""); 
   console.log("new");
   console.log(new_installer);
-  fs.writeFile(downloadPath, installer, 'utf8', function(err) {
+  fs.writeFile(downloadPath, new_installer, 'utf8', function(err) {
             if (err) {
                 return console.error(err);
             }
