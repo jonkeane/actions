@@ -112,7 +112,7 @@ function installTinyTexWindows() {
         }
         // Cleanse install-windows.bat of the pause at the end to make it non-interactive
         var installer = fs.readFileSync(downloadPath, 'utf8');
-        var re = /^pause$/gi;
+        var re = /pause/g;
         console.log("orig");
         console.log(installer);
         var new_installer = installer.replace(re, "");
