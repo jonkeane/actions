@@ -66,7 +66,7 @@ async function installTinyTexPosix() {
 
   await exec.exec("sh", [path.join(tempDirectory, fileName)]);
 
-  await ensureManualPackages();
+  await ensureDocsPackages();
 
   let binPath: string;
 
@@ -94,42 +94,18 @@ async function installTinyTexWindows() {
     throw `Failed to download TinyTex: ${error}`;
   }
 
-  // Cleanse install-windows.bat of the pause at the end to make it non-interactive
-  var installer = fs.readFileSync(downloadPath, 'utf8');
-  var re = /pause/g; 
-  console.log("orig");
-  console.log(installer);
-  var new_installer = installer.replace(re, ""); 
-  console.log("new");
-  console.log(new_installer);
-  fs.writeFile(downloadPath, new_installer, 'utf8', function(err) {
-            if (err) {
-                return console.error(err);
-            }
-            console.log("File created!");
-        });
-        
-  var again = fs.readFileSync(downloadPath, 'utf8');
-  console.log("again")
-  console.log(again);
-
-
   await io.mv(downloadPath, path.join(tempDirectory, fileName));
 
   exec.exec(path.join(tempDirectory, fileName));
-
-  await ensureManualPackages();
 
   core.addPath(
     path.join(process.env["APPDATA"] || "C:\\", "TinyTeX", "bin", "win32")
   );
 }
 
-async function ensureManualPackages() {
+async function ensureDocsPackages() {
   // Ensure the packages needed to compile the pdf manual
-  if (!IS_WINDOWS) {
-      await exec.exec("tlmgr update --self");
-  }
+  await exec.exec("tlmgr update --self");
 
   let pkgs: string[] = ["psnfss", "times", "inconsolata", "zi4", "ifxetex", 
   "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic", 

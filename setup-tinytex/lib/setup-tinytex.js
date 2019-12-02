@@ -85,7 +85,7 @@ function installTinyTexPosix() {
         }
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         yield exec.exec("sh", [path.join(tempDirectory, fileName)]);
-        yield ensureManualPackages();
+        yield ensureDocsPackages();
         let binPath;
         // The binaries are in TinyTeX/bin/*/, where the wildcard is the
         // architecture, but we should always take the first one.
@@ -110,35 +110,15 @@ function installTinyTexWindows() {
         catch (error) {
             throw `Failed to download TinyTex: ${error}`;
         }
-        // Cleanse install-windows.bat of the pause at the end to make it non-interactive
-        var installer = fs.readFileSync(downloadPath, 'utf8');
-        var re = /pause/g;
-        console.log("orig");
-        console.log(installer);
-        var new_installer = installer.replace(re, "");
-        console.log("new");
-        console.log(new_installer);
-        fs.writeFile(downloadPath, new_installer, 'utf8', function (err) {
-            if (err) {
-                return console.error(err);
-            }
-            console.log("File created!");
-        });
-        var again = fs.readFileSync(downloadPath, 'utf8');
-        console.log("again");
-        console.log(again);
         yield io.mv(downloadPath, path.join(tempDirectory, fileName));
         exec.exec(path.join(tempDirectory, fileName));
-        yield ensureManualPackages();
         core.addPath(path.join(process.env["APPDATA"] || "C:\\", "TinyTeX", "bin", "win32"));
     });
 }
-function ensureManualPackages() {
+function ensureDocsPackages() {
     return __awaiter(this, void 0, void 0, function* () {
         // Ensure the packages needed to compile the pdf manual
-        if (!IS_WINDOWS) {
-            yield exec.exec("tlmgr update --self");
-        }
+        yield exec.exec("tlmgr update --self");
         let pkgs = ["psnfss", "times", "inconsolata", "zi4", "ifxetex",
             "auxhook", "kvoptions", "rerunfilecheck", "hobsub-hyperref", "hobsub-generic",
             "gettitlestring", "ltxcmds", "infwarerr", "pdftexcmds", "hyperref"];
