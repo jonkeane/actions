@@ -307,7 +307,7 @@ function acquireRtools(version) {
             yield exec.exec(path.join(tempDirectory, fileName), [
                 "/VERYSILENT",
                 "/SUPPRESSMSGBOXES",
-                "/LOG='C:/rtools_install.log'"
+                "/LOG='C:\rtools_install.log'"
             ]);
         }
         catch (error) {
