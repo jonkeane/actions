@@ -294,8 +294,7 @@ async function acquireRtools(version: string) {
 
   try {
     await exec.exec(path.join(tempDirectory, fileName), [
-      "/SUPPRESSMSGBOXES",
-      "/LOG=C:/rtools_install.log"
+      "/SUPPRESSMSGBOXES"
     ]);
   } catch (error) {
     core.debug(error);
