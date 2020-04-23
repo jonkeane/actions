@@ -295,7 +295,8 @@ async function acquireRtools(version: string) {
   try {
     await exec.exec(path.join(tempDirectory, fileName), [
       "/VERYSILENT",
-      "/SUPPRESSMSGBOXES"
+      "/SUPPRESSMSGBOXES",
+      "/LOG='rtools_install.log'"
     ]);
   } catch (error) {
     core.debug(error);
@@ -303,11 +304,9 @@ async function acquireRtools(version: string) {
     throw `Failed to install Rtools: ${error}`;
   }
   if(rtools4){
-    console.log(`rtools4 is TRUE`);
     core.addPath(`C:\\rtools40\\usr\\bin`);
     core.addPath(`C:\\rtools40\\mingw64\\bin`);
   } else {
-    console.log(`rtools4 is FALSE`);
     core.addPath(`C:\\Rtools\\bin`);
     core.addPath(`C:\\Rtools\\mingw_64\\bin`);
   }
