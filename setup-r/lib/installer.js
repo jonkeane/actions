@@ -314,8 +314,8 @@ function acquireRtools(version) {
             throw `Failed to install Rtools: ${error}`;
         }
         if (rtools4) {
-            core.addPath(`C:\\rtools40\\mingw64\\bin`);
             core.addPath(`C:\\rtools40\\usr\\bin`);
+            core.addPath(`C:\\rtools40\\mingw64\\bin`);
         }
         else {
             core.addPath(`C:\\Rtools\\bin`);
@@ -434,6 +434,7 @@ function determineVersion(version) {
         return yield getLatestVersion(version);
     });
 }
+exports.determineVersion = determineVersion;
 // This function is required to convert the version 1.10 to 1.10.0.
 // Because caching utility accept only sementic version,
 // which have patch number as well.

@@ -437,7 +437,7 @@ function setREnvironmentVariables() {
   core.exportVariable("NOT_CRAN", "true");
 }
 
-async function determineVersion(version: string): Promise<string> {
+export async function determineVersion(version: string): Promise<string> {
   if (version.toLowerCase() == "latest" || version.toLowerCase() == "release") {
     version = "3.x";
   }
