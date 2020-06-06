@@ -486,7 +486,7 @@ function getAvailableVersions() {
 function getPossibleVersions(version) {
     return __awaiter(this, void 0, void 0, function* () {
         const versions = yield getAvailableVersions();
-        core.debug(`${versions}`);
+        core.debug(`${JSON.stringify(versions)}`);
         const possibleVersions = versions.filter(v => v.startsWith(version));
         const versionMap = new Map();
         possibleVersions.forEach(v => versionMap.set(normalizeVersion(v), v));
