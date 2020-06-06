@@ -528,7 +528,7 @@ async function getAvailableVersions(): Promise<string[]> {
 
 async function getPossibleVersions(version: string): Promise<string[]> {
   const versions = await getAvailableVersions();
-  core.debug(`${versions.keys()}`);
+  core.debug(`${versions}`);
   const possibleVersions = versions.filter(v => v.startsWith(version));
 
   const versionMap = new Map();
