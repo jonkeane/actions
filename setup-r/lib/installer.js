@@ -482,7 +482,7 @@ function getAvailableVersions() {
         let tags = (yield rest.get("https://rversions.r-pkg.org/r-versions"))
             .result || [];
         let httpc = new httpm.HttpClient('vsts-node-api');
-        let res = yield httpc.get('https://httpbin.org/get');
+        let res = yield httpc.get('https://rversions.r-pkg.org/r-versions');
         let body = yield res.readBody();
         core.debug(`${body}`);
         core.debug(`${res.message}`);

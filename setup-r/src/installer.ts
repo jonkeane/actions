@@ -530,7 +530,7 @@ async function getAvailableVersions(): Promise<string[]> {
       .result || [];
       
   let httpc: httpm.HttpClient = new httpm.HttpClient('vsts-node-api');
-  let res: httpm.HttpClientResponse = await httpc.get('https://httpbin.org/get');
+  let res: httpm.HttpClientResponse = await httpc.get('https://rversions.r-pkg.org/r-versions');
   let body: string = await res.readBody();
   core.debug(`${body}`);
   core.debug(`${res.message}`);
