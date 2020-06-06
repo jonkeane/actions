@@ -27,6 +27,7 @@ const util = __importStar(require("util"));
 const path = __importStar(require("path"));
 const fs_1 = require("fs");
 const restm = __importStar(require("typed-rest-client/RestClient"));
+const httpm = __importStar(require("typed-rest-client/HttpClient"));
 const semver = __importStar(require("semver"));
 const linux_os_info_1 = __importDefault(require("linux-os-info"));
 const IS_WINDOWS = process.platform === "win32";
@@ -480,9 +481,11 @@ function getAvailableVersions() {
         let rest = new restm.RestClient("setup-r");
         let tags = (yield rest.get("https://rversions.r-pkg.org/r-versions"))
             .result || [];
-        let restRes = yield rest.get("https://rversions.r-pkg.org/r-versions");
-        core.debug(`${restRes.statusCode}`);
-        core.debug(`${restRes.result}`);
+        let httpc = new httpm.HttpClient('vsts-node-api');
+        let res = yield httpc.get('https://httpbin.org/get');
+        let body = yield res.readBody();
+        core.debug(`${body}`);
+        core.debug(`${res.message}`);
         return tags.map(tag => tag.version);
     });
 }
