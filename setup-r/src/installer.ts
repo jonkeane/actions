@@ -543,7 +543,7 @@ async function getLatestVersion(version: string): Promise<string> {
   const trimmedVersion = version.slice(0, version.length - 2);
 
   const versions = await getPossibleVersions(trimmedVersion);
-
+  core.debug(versions)
   core.debug(`evaluating ${versions.length} versions`);
 
   if (version.length === 0) {
