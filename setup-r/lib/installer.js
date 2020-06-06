@@ -480,13 +480,13 @@ function getAvailableVersions() {
         let rest = new restm.RestClient("setup-r");
         let tags = (yield rest.get("https://rversions.r-pkg.org/r-versions"))
             .result || [];
+        core.debug(`${JSON.stringify(tags)}`);
         return tags.map(tag => tag.version);
     });
 }
 function getPossibleVersions(version) {
     return __awaiter(this, void 0, void 0, function* () {
         const versions = yield getAvailableVersions();
-        core.debug(`${JSON.stringify(versions)}`);
         const possibleVersions = versions.filter(v => v.startsWith(version));
         const versionMap = new Map();
         possibleVersions.forEach(v => versionMap.set(normalizeVersion(v), v));
