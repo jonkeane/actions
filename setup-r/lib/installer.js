@@ -486,6 +486,7 @@ function getAvailableVersions() {
 function getPossibleVersions(version) {
     return __awaiter(this, void 0, void 0, function* () {
         const versions = yield getAvailableVersions();
+        core.debug(`${versions.keys()}`);
         const possibleVersions = versions.filter(v => v.startsWith(version));
         const versionMap = new Map();
         possibleVersions.forEach(v => versionMap.set(normalizeVersion(v), v));
@@ -499,7 +500,6 @@ function getLatestVersion(version) {
         // clean .x syntax: 1.10.x -> 1.10
         const trimmedVersion = version.slice(0, version.length - 2);
         const versions = yield getPossibleVersions(trimmedVersion);
-        core.debug(`${versions}`);
         core.debug(`evaluating ${versions.length} versions`);
         if (version.length === 0) {
             throw new Error("unable to get latest version");

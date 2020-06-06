@@ -528,6 +528,7 @@ async function getAvailableVersions(): Promise<string[]> {
 
 async function getPossibleVersions(version: string): Promise<string[]> {
   const versions = await getAvailableVersions();
+  core.debug(`${versions.keys()}`);
   const possibleVersions = versions.filter(v => v.startsWith(version));
 
   const versionMap = new Map();
@@ -543,7 +544,7 @@ async function getLatestVersion(version: string): Promise<string> {
   const trimmedVersion = version.slice(0, version.length - 2);
 
   const versions = await getPossibleVersions(trimmedVersion);
-  core.debug(`${versions}`)
+
   core.debug(`evaluating ${versions.length} versions`);
 
   if (version.length === 0) {
