@@ -482,8 +482,8 @@ function getAvailableVersions() {
             .result || [];
         let restRes = yield rest.get("https://rversions.r-pkg.org/r-versions");
         core.debug(`${restRes.statusCode}`);
-        core.debug(`${restRes.result}`);
-        core.debug(`${restRes.data}`);
+        core.debug(`${restRes.result['data']}`);
+        core.debug(`${restRes.result['json']}`);
         return tags.map(tag => tag.version);
     });
 }

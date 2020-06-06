@@ -501,6 +501,7 @@ interface IRRef {
 interface HttpBinData {
     url: string;
     data: any;
+    json: any;
 }
 
 async function getReleaseVersion(platform: string): Promise<string> {
@@ -531,8 +532,8 @@ async function getAvailableVersions(): Promise<string[]> {
   let restRes: restm.IRestResponse<HttpBinData> = await rest.get<HttpBinData>("https://rversions.r-pkg.org/r-versions");
   
   core.debug(`${restRes.statusCode}`);
-  core.debug(`${restRes.result}`);
-  core.debug(`${restRes.data}`);
+  core.debug(`${restRes.result['data']}`);
+  core.debug(`${restRes.result['json']}`);
   return tags.map(tag => tag.version);
 }
 
