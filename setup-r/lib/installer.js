@@ -480,7 +480,9 @@ function getAvailableVersions() {
         let rest = new restm.RestClient("setup-r");
         let tags = (yield rest.get("https://rversions.r-pkg.org/r-versions"))
             .result || [];
-        core.debug(`${JSON.stringify(tags)}`);
+        let restRes = yield rest.get("https://rversions.r-pkg.org/r-versions");
+        core.debug(`${restRes.statusCode}`);
+        core.debug(`${restRes.result}`);
         return tags.map(tag => tag.version);
     });
 }

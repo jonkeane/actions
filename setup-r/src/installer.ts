@@ -498,6 +498,11 @@ interface IRRef {
   version: string;
 }
 
+interface HttpBinData {
+    url: string;
+    data: any;
+}
+
 async function getReleaseVersion(platform: string): Promise<string> {
   let rest: restm.RestClient = new restm.RestClient("setup-r");
   let tags: IRRef[] =
@@ -522,7 +527,10 @@ async function getAvailableVersions(): Promise<string[]> {
   let tags: IRRef[] =
     (await rest.get<IRRef[]>("https://rversions.r-pkg.org/r-versions"))
       .result || [];
-  core.debug(`${JSON.stringify(tags)}`);
+
+  let restRes: restm.IRestResponse<HttpBinData> = await rest.get<HttpBinData>("https://rversions.r-pkg.org/r-versions");
+  core.debug(`${restRes.statusCode}`);
+  core.debug(`${restRes.result}`);
   return tags.map(tag => tag.version);
 }
 
