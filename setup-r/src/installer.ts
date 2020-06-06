@@ -8,7 +8,6 @@ import * as util from "util";
 import * as path from "path";
 import { promises as fs } from "fs";
 import * as restm from "typed-rest-client/RestClient";
-import * as httpm from "typed-rest-client/HttpClient";
 import * as semver from "semver";
 import osInfo from "linux-os-info";
 
@@ -528,12 +527,12 @@ async function getAvailableVersions(): Promise<string[]> {
   let tags: IRRef[] =
     (await rest.get<IRRef[]>("https://rversions.r-pkg.org/r-versions"))
       .result || [];
-      
-  let httpc: httpm.HttpClient = new httpm.HttpClient('vsts-node-api');
-  let res: httpm.HttpClientResponse = await httpc.get('https://rversions.r-pkg.org/r-versions');
-  let body: string = await res.readBody();
-  core.debug(`${body}`);
-  core.debug(`${res.message}`);
+
+  let restRes: restm.IRestResponse<HttpBinData> = await rest.get<HttpBinData>("https://rversions.r-pkg.org/r-versions");
+  
+  core.debug(`${restRes.statusCode}`);
+  core.debug(`${restRes.result}`);
+  core.debug(`${restRes.data}`);
   return tags.map(tag => tag.version);
 }
 
