@@ -539,10 +539,7 @@ async function getPossibleVersions(version: string): Promise<string[]> {
 }
 
 async function getLatestVersion(version: string): Promise<string> {
-  // clean .x syntax: 1.10.x -> 1.10
-  const trimmedVersion = version.slice(0, version.length - 2);
-
-  const versions = await getPossibleVersions(trimmedVersion);
+  const versions = await getPossibleVersions(version);
 
   core.debug(`evaluating ${versions.length} versions`);
 

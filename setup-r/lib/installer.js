@@ -496,9 +496,7 @@ function getPossibleVersions(version) {
 }
 function getLatestVersion(version) {
     return __awaiter(this, void 0, void 0, function* () {
-        // clean .x syntax: 1.10.x -> 1.10
-        const trimmedVersion = version.slice(0, version.length - 2);
-        const versions = yield getPossibleVersions(trimmedVersion);
+        const versions = yield getPossibleVersions(version);
         core.debug(`evaluating ${versions.length} versions`);
         if (version.length === 0) {
             throw new Error("unable to get latest version");
